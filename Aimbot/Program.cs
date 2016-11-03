@@ -14,8 +14,23 @@ namespace Aimbot
 {
     class Program
     {
+
+        /** Code is currently terrible. I seriously need to clean this up! 
+         * 
+         * **/
+
+
+
+
+
+
+
+
+
         public static Win32.POINT x1;
+        //timer
         private static readonly Stopwatch sw = new Stopwatch();
+        //
         private static int xpos;
         private static int ypos;
         private static int xposchange = 0;
@@ -150,7 +165,7 @@ namespace Aimbot
                     if (xpos != Cursor.Position.X)
                         xposchange = Cursor.Position.X - xpos;
                     if (ypos != Cursor.Position.Y)
-                        xposchange = Cursor.Position.Y - ypos;  dfgh
+                        xposchange = Cursor.Position.Y - ypos;
                     bool redLeft = false;
                     bool redright = false;
                     int stop = arr.Length / 2 + xposchange;
