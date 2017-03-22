@@ -14,23 +14,9 @@ namespace Aimbot
 {
     class Program
     {
-
-        /** Code is currently terrible. I seriously need to clean this up! 
-         * 
-         * **/
-
-
-
-
-
-
-
-
-
         public static Win32.POINT x1;
         //timer
         private static readonly Stopwatch sw = new Stopwatch();
-        //
         private static int xpos;
         private static int ypos;
         private static int xposchange = 0;
@@ -39,7 +25,6 @@ namespace Aimbot
         private static Random rand = new Random();
         static void Main(string[] args)
         {
-            int width = 10;
             while (true)
             {
                 x1 = new Win32.POINT();
@@ -56,26 +41,10 @@ namespace Aimbot
                 Bitmap b = CaptureImage();
 
                 ProcessUsingLockbitsAndUnsafeAndParallel(b);
-                //sw.Stop();
-                //Console.WriteLine(sw.ElapsedMilliseconds);
-
-
-                //int counter = 0;
-                //foreach (bool b in testc)
-                //    if (b)
-                //        counter++;
-                //if (counter > 0)
-                //{
-                //    Cursor.Hide();
-                //    DoMouseClick();
-                //    Thread.Sleep(500);
-                //    Cursor.Show();
-                //}
             }
-
-            
         }
 
+        //grabs the image from screen
         private static Bitmap CaptureImage()
         {
             Bitmap b = new Bitmap(60, 1);
@@ -86,6 +55,7 @@ namespace Aimbot
             return b;
         }
 
+        //checks if the color passed is red enough
         public static bool isRed(Color c)
         {
             return (c.R > 130 && c.B < 100 && c.G < 100); ;
@@ -95,6 +65,7 @@ namespace Aimbot
             return (red > 130 && blue < 100 && green < 100); ;
         }
 
+        //mouse click functions
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
 
@@ -123,20 +94,15 @@ namespace Aimbot
             }
         }
 
-        public static bool isWithin(Point p)
-        {
-            //if
-            return false;
-        }
-
         /*Note unsafe keyword*/
         private static void ProcessUsingLockbitsAndUnsafeAndParallel(Bitmap processedBitmap)
         {
             unsafe
             {
+                //make a bitmap, 10 by 1
                 BitmapData bitmapData = processedBitmap.LockBits(new Rectangle(0, 0, 10, 1), ImageLockMode.ReadOnly, processedBitmap.PixelFormat);
-
-                int bytesPerPixel = System.Drawing.Bitmap.GetPixelFormatSize(processedBitmap.PixelFormat) / 8;
+                //set heigh/width
+                int bytesPerPixel = Bitmap.GetPixelFormatSize(processedBitmap.PixelFormat) / 8;
                 int heightInPixels = 1;
                 int widthInBytes = 10 * bytesPerPixel;
                 byte* PtrFirstPixel = (byte*)bitmapData.Scan0;
@@ -173,7 +139,6 @@ namespace Aimbot
                         stop = arr.Length - 1;
                     if (stop < 0)
                         stop = 0;
-                    //Console.WriteLine(stop);
                     for (int i = 0; i < stop; i++)
                         if (arr[i])
                         {
